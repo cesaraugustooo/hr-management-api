@@ -1,0 +1,21 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Work",
+        "description": "Documentação da API Work gerada pelo L5-Swagger",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/empresas": {
+            "get": {
+                "summary": "Rota de teste",
+                "operationId": "9239adbd1cfe29bdf0372db2124d0b1f",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso"
+                    }
+                }
+            }
+        }
+    }
+}
