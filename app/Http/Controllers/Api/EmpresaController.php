@@ -23,13 +23,6 @@ class EmpresaController extends Controller
         $this->empresaService = new EmpresaService();
     }
 
-    /**
-     *  @OA\Get(
-     *     path="/api/empresas",
-     *     summary="Rota de teste",
-     *     @OA\Response(response=200, description="Sucesso")
-     * )
-     */
     public function index(Request $request)
     {
         $empresas = Empresa::paginate();
@@ -42,7 +35,7 @@ class EmpresaController extends Controller
      */
     public function store(EmpresaRequest $request): JsonResponse
     {
-        $empresa = Empresa::create($request->validated());
+        $empresa = Empresa::create(array_merge($request->validated(),['user_admin'=>auth()->user()->id]));
 
         return response()->json(new EmpresaResource($empresa));
     }
@@ -60,9 +53,11 @@ class EmpresaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(EmpresaRequest $request, Empresa $empresa): JsonResponse
+    public function update(Request $request, Empresa $empresa): JsonResponse
     {
-        $empresa->update($request->validated());
+        $this->authorize("update",$empresa);
+
+        $empresa->update($request->validate(Empresa::updateRule()));
 
         return response()->json(new EmpresaResource($empresa));
     }
@@ -72,6 +67,8 @@ class EmpresaController extends Controller
      */
     public function destroy(Empresa $empresa): Response
     {
+        $this->authorize("update",$empresa);
+
         $empresa->delete();
 
         return response()->noContent();
