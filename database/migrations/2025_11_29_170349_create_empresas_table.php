@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->longText('image_path');
+            $table->longText('image_path')->nullable();
+            $table->longText('description')->nullable();
             $table->foreignId('user_admin')->constrained('users');
             $table->rememberToken();
             $table->timestamps();

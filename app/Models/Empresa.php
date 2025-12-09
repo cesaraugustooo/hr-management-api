@@ -33,7 +33,7 @@ class Empresa extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'image_path', 'user_admin'];
+    protected $fillable = ['name', 'email', 'image_path', 'user_admin','description'];
 
 
     /**
@@ -63,5 +63,13 @@ class Empresa extends Model
 
     public function companyAssociation(){
         return $this->belongsToMany(User::class,'usuarios_has_empresas','empresas_id', 'users_id');
+    }
+
+    public static function updateRule(){
+        return [
+            'name' => 'sometimes|string',
+			'email' => 'sometimes|string',
+            'description'=>'sometimes|string'
+        ];
     }
 }

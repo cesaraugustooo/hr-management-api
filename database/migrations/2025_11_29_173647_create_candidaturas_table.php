@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('telefone',50);
             $table->enum('status',['Pendente','Em analise','Aprovado', 'Reprovado']);
             $table->foreignId('vagas_id')->constrained();
-            $table->foreignId('users_id')->constrained();
+            $table->foreignId('users_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
