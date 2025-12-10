@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssociationCompanyRequest;
 use App\Http\Resources\EmpresaResource;
+use App\Models\Candidatura;
 use App\services\EmpresaService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -35,7 +36,7 @@ class EmpresaController extends Controller
      */
     public function store(EmpresaRequest $request): JsonResponse
     {
-        $empresa = Empresa::create(array_merge($request->validated(),['user_admin'=>auth()->user()->id]));
+        $empresa = Empresa::create(array_merge($request->validated(),['user_admin'=>$request->user()->id]));
 
         return response()->json(new EmpresaResource($empresa));
     }
@@ -85,4 +86,5 @@ class EmpresaController extends Controller
             return response()->json(['message'=>'Erro ao associar usuarios a esta empresa'],400);
         }
     }
+
 }
