@@ -9,9 +9,11 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CandidaturaResource;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CandidaturaController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +29,7 @@ class CandidaturaController extends Controller
      */
     public function store(CandidaturaRequest $request): JsonResponse
     {
-        $candidatura = Candidatura::create($request->validated());
+        $candidatura = Candidatura::create(array_merge($request->validated(),['users_id'=>$request->user()->id,'status'=>'Pendente']));
 
         return response()->json(new CandidaturaResource($candidatura));
     }
@@ -37,26 +39,34 @@ class CandidaturaController extends Controller
      */
     public function show(Candidatura $candidatura): JsonResponse
     {
-        return response()->json(new CandidaturaResource($candidatura));
+        $this->authorize('view',$candidatura);
+
+        return response()->json(new CandidaturaResource($candidatura->load('vaga.empresa')));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CandidaturaRequest $request, Candidatura $candidatura): JsonResponse
+    public function update(Request $request, Candidatura $candidatura): JsonResponse
     {
-        $candidatura->update($request->validated());
+        $this->authorize('update',$candidatura);
+
+        $candidatura->update($request->validate([
+            'name' => 'sometimes|string',
+			'contact_email' => 'sometimes|email',
+			'telefone' => 'sometimes|string',
+        ]));
 
         return response()->json(new CandidaturaResource($candidatura));
     }
 
-    /**
-     * Delete the specified resource.
-     */
-    public function destroy(Candidatura $candidatura): Response
-    {
-        $candidatura->delete();
+    public function updateCandidaturaStatus(Request $request,Candidatura $candidatura){
+        $this->authorize('updateCandidaturaStatus',$candidatura);
 
-        return response()->noContent();
+        $candidatura->update($request->validate([
+            'status' => 'required|in:Pendente,Em analise,Aprovado, Reprovado',
+        ]));
+
+        return response()->json($candidatura);
     }
 }

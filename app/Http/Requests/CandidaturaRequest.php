@@ -23,10 +23,9 @@ class CandidaturaRequest extends FormRequest
     {
         return [
 			'name' => 'required|string',
-			'contact_email' => 'required|string',
+			'contact_email' => 'required|email',
 			'telefone' => 'required|string',
-			'status' => 'required',
-			'vagas_id' => 'required',
+			'vagas_id' => 'required|int',
         ];
     }
 }
