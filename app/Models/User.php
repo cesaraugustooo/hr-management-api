@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
+        'email_verified_at'
     ];
 
     public function getJWTIdentifier()
@@ -33,7 +34,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            "email" => $this->email
+        ];
     }
 
     /**
