@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CandidaturaController;
 use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\VagaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MailController;
 use App\Models\Candidatura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,9 @@ Route::get('/user', function (Request $request) {
 Route::post('/register',[AuthController::class,'register']);
 
 Route::post('/login',[AuthController::class,'login']);
+
+Route::get('/send-email/{mail}',[MailController::class,'sendVerificationMail']);     
+Route::get('/verify/{id}/{hash}',[MailController::class,'verificationMail']);     
 
 Route::middleware('cookie-auth')->group(function(){
     Route::apiResource('empresas', EmpresaController::class)->except(['index']);
