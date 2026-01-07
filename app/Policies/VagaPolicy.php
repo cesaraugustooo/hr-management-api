@@ -38,7 +38,7 @@ class VagaPolicy
             }
         }
 
-        return $user->id == $empresa->users_id;
+        return $user->id == $empresa->user_admin;
     }
 
     /**
