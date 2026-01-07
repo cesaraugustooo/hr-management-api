@@ -23,13 +23,11 @@ class EmpresaPolicy
     {
         $users = $empresa->companyAssociation;
 
-        foreach ($users as $member) {
-            if ($member->id === $user->id) {
-                return true;
-            }
+        if (AssociationGlobalPolicy::verifyMember($empresa, $user)) {
+            return true;
         }
 
-        return $user->id === $empresa->user_admin;
+        return false;
     }
 
     /**
@@ -47,13 +45,11 @@ class EmpresaPolicy
     {
         $users = $empresa->companyAssociation;
 
-        foreach ($users as $member) {
-            if ($member->id === $user->id) {
-                return true;
-            }
+        if (AssociationGlobalPolicy::verifyMember($empresa, $user)) {
+            return true;
         }
 
-        return $user->id === $empresa->user_admin;
+        return false;
     }
 
     /**
