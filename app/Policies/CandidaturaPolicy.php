@@ -27,16 +27,10 @@ class CandidaturaPolicy
     {
         $empresa = $candidatura->vaga->empresa;
 
-        if($empresa->user_admin == $user->id){
+        if (AssociationGlobalPolicy::verifyMember($empresa, $user)) {
             return true;
         }
-
-        foreach($empresa->companyAssociation as $user_company){
-            if($user_company->id == $user->id){
-                return true;
-            } 
-        }
-
+        
         return $user->id == $candidatura->users_id;
     }
 
@@ -76,15 +70,10 @@ class CandidaturaPolicy
     {
         $empresa = $candidatura->vaga->empresa;
 
-        if($empresa->user_admin == $user->id){
+       if (AssociationGlobalPolicy::verifyMember($empresa, $user)) {
             return true;
         }
-
-        foreach($empresa->companyAssociation as $user_company){
-            if($user_company->id == $user->id){
-                return true;
-            } 
-        }
+        
         return false;
     }
 }
