@@ -24,26 +24,24 @@ class EmpresaController extends Controller
         $this->empresaService = new EmpresaService();
     }
 
-    public function index(Request $request)
+    public function index(Request $request, EmpresaService $empresaService)
     {
-        $empresas = Empresa::paginate();
+        $empresas = $empresaService->index();
 
         return EmpresaResource::collection($empresas);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(EmpresaRequest $request): JsonResponse
+    
+    public function store(EmpresaRequest $request, EmpresaService $empresaService): JsonResponse
     {
-        $empresa = Empresa::create(array_merge($request->validated(),['user_admin'=>$request->user()->id]));
+        $validate = array_merge($request->validated(),['user_admin'=>$request->user()->id]);
+
+        $empresa = $empresaService->store($validate);
 
         return response()->json(new EmpresaResource($empresa));
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(Empresa $empresa): JsonResponse
     {
         $this->authorize('view',$empresa);
@@ -51,26 +49,20 @@ class EmpresaController extends Controller
         return response()->json(new EmpresaResource($empresa));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Empresa $empresa): JsonResponse
+    
+    public function update(Request $request, Empresa $empresa, EmpresaService $empresaService): JsonResponse
     {
-        $this->authorize("update",$empresa);
+        $validate = $request->validate(Empresa::updateRule());
 
-        $empresa->update($request->validate(Empresa::updateRule()));
+        $empresa = $empresaService->update($validate,$empresa);
 
         return response()->json(new EmpresaResource($empresa));
     }
 
-    /**
-     * Delete the specified resource.
-     */
-    public function destroy(Empresa $empresa): Response
+    
+    public function destroy(Empresa $empresa, EmpresaService $empresaService): Response
     {
-        $this->authorize("update",$empresa);
-
-        $empresa->delete();
+        $empresaService->destroy($empresa);
 
         return response()->noContent();
     }
