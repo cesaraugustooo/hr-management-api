@@ -23,7 +23,7 @@ class EmpresaRequest extends FormRequest
     {
         return [
 			'name' => 'required|string',
-			'email' => 'required|string',
+			'email' => 'required|string|unique:empresas,email',
             'description'=>'required|string'
         ];
     }
