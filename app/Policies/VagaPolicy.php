@@ -48,12 +48,8 @@ class VagaPolicy
     {
         $empresa = Empresa::find($vaga->empresas_id);
 
-        $users = $empresa->companyAssociation;
-
-        foreach ($users as $member) {
-            if ($member->id === $user->id) {
-                return true;
-            }
+        if (AssociationGlobalPolicy::verifyMember($empresa, $user)) {
+            return true;
         }
 
         return $user->id == $empresa->users_id;
