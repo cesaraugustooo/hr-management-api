@@ -9,8 +9,8 @@ class VagaService {
 
     public function index(): object {
 
-        $vagas = Vaga::with(['empresa'])->paginate();
-
+        $vagas = Vaga::with(['empresa'])->withCount('candidaturas')->paginate();
+        
         return $vagas;
     } 
    
