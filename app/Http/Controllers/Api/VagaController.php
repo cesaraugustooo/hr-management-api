@@ -32,9 +32,9 @@ class VagaController extends Controller
     }
 
 
-    public function show(Vaga $vaga): JsonResponse
+    public function show($vaga, VagaService $vagaService): JsonResponse
     {
-        return response()->json(new VagaResource($vaga->load('empresa')));
+        return response()->json($vagaService->show($vaga));
     }
 
 

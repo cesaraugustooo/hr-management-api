@@ -38,4 +38,7 @@ class VagaService {
         $vaga->delete();
     }
 
+    public function show($vaga){
+        return Vaga::with('empresa')->withCount('candidaturas')->find($vaga);
+    }
 }
