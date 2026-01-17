@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssociationCompanyRequest;
 use App\Http\Resources\EmpresaResource;
-use App\Models\Candidatura;
 use App\services\EmpresaService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

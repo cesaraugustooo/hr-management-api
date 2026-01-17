@@ -14,15 +14,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class CandidaturaController extends Controller
 {
     use AuthorizesRequests;
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        $candidaturas = Candidatura::paginate();
-
-        return CandidaturaResource::collection($candidaturas);
-    }
 
     /**
      * Store a newly created resource in storage.
