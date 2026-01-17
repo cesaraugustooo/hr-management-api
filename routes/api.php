@@ -1,17 +1,17 @@
 <?php
 
 use App\Http\Controllers\MailController;
-use App\Models\Empresa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 include "auth/route.php";
 
+
 Route::get('/send-email/{mail}',[MailController::class,'sendVerificationMail']);     
 Route::get('/verify/{id}/{hash}',[MailController::class,'verificationMail']);     
 
 Route::middleware('cookie-auth')->group(function(){
-    include "empresas/route.php";
+    include "empresas/route.php";   
     include "vagas/route.php";
     include "candidaturas/route.php";
 });
