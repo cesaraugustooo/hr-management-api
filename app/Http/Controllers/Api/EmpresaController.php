@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssociationCompanyRequest;
 use App\Http\Resources\EmpresaResource;
-use App\services\EmpresaService;
+use App\Services\EmpresaService;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
