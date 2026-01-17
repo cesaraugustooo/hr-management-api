@@ -43,7 +43,12 @@ class Empresa extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_admin');
     }
-    
+
+    public $hidden = [
+        "remember_token",
+        "email_verified_at"
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
