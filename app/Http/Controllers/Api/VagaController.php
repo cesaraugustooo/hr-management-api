@@ -38,21 +38,17 @@ class VagaController extends Controller
     }
 
 
-    public function update(Request $request, Vaga $vaga): JsonResponse
+    public function update(Request $request, Vaga $vaga, VagaService $vagaService): JsonResponse
     {
-        $this->authorize('update',$vaga);
-
-        $vaga->update($request->validate(Vaga::updateRule()));
+        $vaga = $vagaService->update($request->validate(Vaga::updateRule()), $vaga);
 
         return response()->json(new VagaResource($vaga));
     }
 
 
-    public function destroy(Vaga $vaga): Response
+    public function destroy(Vaga $vaga, VagaService $vagaService): Response
     {
-        $this->authorize('update',$vaga);
-
-        $vaga->delete();
+        $vagaService->destroy($vaga);
 
         return response()->noContent();
     }
