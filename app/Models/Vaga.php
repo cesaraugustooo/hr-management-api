@@ -56,7 +56,7 @@ class Vaga extends Model
      */
     public function candidaturas()
     {
-        return $this->hasMany(\App\Models\Candidatura::class, 'id', 'vagas_id');
+        return $this->hasMany(\App\Models\Candidatura::class, 'vagas_id');
     }
     
     public static function updateRule(){
