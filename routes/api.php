@@ -8,9 +8,9 @@ include "auth/route.php";
 
 
 Route::get('/send-email/{mail}',[MailController::class,'sendVerificationMail']);     
-Route::get('/verify/{id}/{hash}',[MailController::class,'verificationMail']);     
+Route::get('/verify/{id}/{hash}',[MailController::class,'verificationMail'])->name('verify-mail');     
 
-Route::middleware('cookie-auth')->group(function(){
+Route::middleware(['cookie-auth','verified'])->group(function(){
     include "empresas/route.php";   
     include "vagas/route.php";
     include "candidaturas/route.php";

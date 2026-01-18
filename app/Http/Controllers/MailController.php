@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\services\MailService;
+use App\Jobs\MailJob;
+use App\Services\MailService;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,7 +14,9 @@ class MailController extends Controller
 {
     public function sendVerificationMail(MailService $mailService,$mail){
         try {
-            $mailService->sendMail($mail);
+            MailJob::dispatch($mail);
+
+            return response()->json(['message'=>'O email de confirmação sera enviado em alguns segundos.']);
         } catch (NotFoundHttpException $e) {
                 return response()->json(['message'=>$e->getMessage()],404);
         }
